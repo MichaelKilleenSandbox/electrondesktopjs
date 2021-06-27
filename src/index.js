@@ -3,12 +3,7 @@ const path = require("path");
 const log = require('electron-logger');
 const BrowserWindow = electron.remote.BrowserWindow;
 
-const officeButton = document.getElementById("btn_bingo");
-officeButton.addEventListener('click',(ev) => {
-    log.info('Start');
-    /**
-     * Async function to retrieve office data from server and display it in a table.
-     */
+function fetchOffices() {
     (async () => {
         /**
          * Local function to add a row to table.
@@ -44,14 +39,23 @@ officeButton.addEventListener('click',(ev) => {
             log.info('Whoops!!!');
             log.info(e.message);
         }
-    })();
-    log.info('Finish');
+    })(); // End Async.
+}
 
-    // fetch('https://api.github.com/repos/javascript-tutorial/en.javascript.info/commits')
-    //     .then(response => response.json())
-    //     .then(commits => {
-    //         log.info(commits[0].author.login)
-    //         alert(commits[0].author.login)
-    //     });
+// document.addEventListener("DOMContentLoaded", (event) => {
+//     log.info('DOM is ready.');
+//     fetchOffices();
+// });
 
+document.onreadystatechange = () => {
+    if (document.readyState === 'complete') {
+        console.log('DOM is ready.')
+        fetchOffices();
+    }
+};
+
+const officeButton = document.getElementById("btn_bingo");
+officeButton.addEventListener('click',(ev) => {
+    log.info('Start');
+    fetchOffices();
 })
